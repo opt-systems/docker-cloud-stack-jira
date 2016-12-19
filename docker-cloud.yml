@@ -1,0 +1,36 @@
+jira:
+  environment:
+    - CATALINA_OPTS= -Xms256m -Xmx1g
+    - 'JIRA_DATABASE_URL=postgresql://jiradb@postgresql/jiradb'
+    - JIRA_DB_PASSWORD=jiradb
+    - JIRA_DELAYED_START=10
+    - JIRA_LOGFILE_LOCATION=/var/atlassian/jira
+    - JIRA_PROXY_NAME=jira.example.com
+    - JIRA_PROXY_PORT=443
+    - JIRA_PROXY_SCHEME=https
+    - LETSENCRYPT_EMAIL=admin@example.com
+    - LETSENCRYPT_HOST=jira.example.com
+    - PROXY_PORT=443
+    - PROXY_SCHEME=https
+    - PROXY_SECURED=true
+    - VIRTUAL_HOST=jira.example.com
+  expose:
+    - '8080'
+  image: 'blacklabelops/jira:latest'
+  links:
+    - postgresql
+  tags:
+    - my-super-node
+postgresql:
+  environment:
+    - POSTGRES_COLLATE=C
+    - POSTGRES_COLLATE_TYPE=C
+    - POSTGRES_DB=jiradb
+    - POSTGRES_ENCODING=UNICODE
+    - POSTGRES_PASSWORD=jiradb
+    - POSTGRES_USER=jiradb
+  image: 'blacklabelops/postgres:latest'
+  tags:
+    - my-super-node
+  volumes:
+    - /var/lib/postgresql
